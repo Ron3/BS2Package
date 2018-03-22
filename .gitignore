@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.meta
+
+# 忽略文件夾
+obj
+Library
+ProjectSettings
+Temp
+
+
+
