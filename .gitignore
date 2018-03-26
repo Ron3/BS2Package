@@ -5,6 +5,7 @@ __pycache__/
 
 # C extensions
 *.meta
+Assembly-CSharp.csproj
 
 # 忽略文件夾
 obj

@@ -29,6 +29,7 @@ public class PackageView : MonoBehaviour {
 	{
 		Debug.Log("OnCloseBtnClick");
 		UIManager.Instance.ClosePanel("Panel/Package");
+		GameObject.Destroy(this.gameObject);
 	}
 
 }
