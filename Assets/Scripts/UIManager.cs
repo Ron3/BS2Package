@@ -55,6 +55,15 @@ public class UIManager : Singleton<UIManager> {
         GameObject panel = GameObject.Instantiate(obj);
 		m_PanelDic.Add(name, panel);
 		panel.transform.SetParent(m_CanvasRoot.transform);
+		BPCommon.SetViewPosition(panel, BPCommon.POSITION.CENTER);
+		
+		// RectTransform panelRectTransform = panel.GetComponent<RectTransform>();
+		// Debug.Log(panel.transform.localPosition + " | " + panelRectTransform.pivot);
+		// GameObject btn = GameObject.Find("StartGameButton");
+		// Debug.Log("btn ==> " + btn.transform.localPosition);
+		// // m_str
+		// RectTransform canvasTransform = m_CanvasRoot.GetComponent<RectTransform>();
+		// Debug.Log("canvasTransform.pivot ==> " + canvasTransform.pivot);
 	}
 
     /// <summary>
@@ -71,7 +80,9 @@ public class UIManager : Singleton<UIManager> {
             return;
         }
 
-        m_PanelDic.TryGet(name);
+        GameObject panel = m_PanelDic.TryGet(name);
+		panel.transform.SetParent(null);
+		m_PanelDic.Remove(name);
     }
 
 
