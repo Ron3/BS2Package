@@ -26,6 +26,16 @@ public class StartGame : MonoBehaviour {
     
     public void OnStartGameBtnClick(Button btn)
     {
+        // GameObject button = GameObject.Find("StartGameButton");
+        // Debug.Log("StartGameButton localPosition=> " + button.transform.localPosition);
+        // Debug.Log("StartGameButton position=> " + button.transform.position);
+        // Debug.Log(button.BP_RT().rect);
+
+        // GameObject canvas = GameObject.Find("Canvas");
+        // Debug.Log("canvas localPosition=> " + canvas.transform.localPosition);
+        // Debug.Log("canvas position=> " + canvas.transform.position);
+        // Debug.Log("canvas rect ==> " + canvas.BP_RT().rect);
+        
         UIManager.Instance.ShowPanel("Panel/Package");
     }
 }

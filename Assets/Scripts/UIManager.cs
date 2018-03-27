@@ -56,7 +56,13 @@ public class UIManager : Singleton<UIManager> {
 		m_PanelDic.Add(name, panel);
 		panel.transform.SetParent(m_CanvasRoot.transform);
 		BPCommon.SetViewPosition(panel, BPCommon.POSITION.CENTER);
-		
+
+		// Resolution[] resolutions = Screen.resolutions;
+        // Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);    
+		// float height = resolutions[0].height;
+		// float width = resolutions[0].width;
+		// Debug.Log("Screen height ==> " + height + "  width => " + width);
+		// BPCommon.SetRectTransformSize(panel.GetComponent<RectTransform>(), m_CanvasRoot.BP_Size());
 		// RectTransform panelRectTransform = panel.GetComponent<RectTransform>();
 		// Debug.Log(panel.transform.localPosition + " | " + panelRectTransform.pivot);
 		// GameObject btn = GameObject.Find("StartGameButton");
