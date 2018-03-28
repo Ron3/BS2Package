@@ -60,6 +60,8 @@ public static class GameObjectExtension
         return obj.GetComponent<RectTransform>().rect;
     }
 
+    /// Summary
+    /// 目前这里不是返回的绝对值.但上层都以大于0的来做.稍后如果有必要.就改掉这个底层函数
     public static Vector2 BP_Size(this GameObject obj)
     {
         if(obj == null){
@@ -135,6 +137,7 @@ public static class GameObjectExtension
 public class BPCommon
 {
     public enum POSITION {CENTER, LEFT_BOTTOM};
+    public enum DIRECTION {HORIZONTAL_TOP, HORIZONTAL_CENTER, HORIZONTAL_BOTTOM, VERTICAL_CENTER, VERTICAL_LEFT, VERTICAL_RIGHT};
 
     ///
     /// 设置坐标
@@ -163,11 +166,137 @@ public class BPCommon
             float y = parentViewHeight / 2.0f - parentView.BP_RT().pivot.y * parentViewHeight;
 
             view.BP_RT().localPosition = new Vector3(x, y, 0f);
-            Debug.Log("Ron setView===> " + view.BP_RT().position + " | " + view.BP_RT().localPosition);
-            // parenetRect.pivot
         }
     }
 
+    ///
+    /// 这个坐标,只是视角上的坐标
+    public static void SetViewPositionByPoint(GameObject view, float x, float y, float z=0)
+    {
+        SetViewPositionByPoint(view, new Vector3(x, y, z));
+    }
+
+    ///
+    /// 这个坐标,只是视角上的坐标
+    public static void SetViewPositionByPoint(GameObject view, Vector2 v, float z=0)
+    {
+        SetViewPositionByPoint(view, new Vector3(v.x, v.y, z));
+    }
+
+    ///
+    /// Summary
+    /// 目前无法支持锚点在4个角那种情况.只能支持锚点在1个点的(这样才能正确获取大小)
+    /// v这个参数是根据父窗口的左下角为(0, 0)坐标系的值
+    public static void SetViewPositionByPoint(GameObject view, Vector3 v)
+    {
+        if(view == null || view.BP_IsAnchorsPoint() == false){
+            return;
+        }
+
+        GameObject parentView = view.transform.parent.gameObject;
+        Vector2 parentSize = parentView.BP_Size();
+        float width = parentSize.x;
+        float height = parentSize.y;
+
+        float x = v.x + view.BP_Size().x * view.BP_Pivot().x - parentView.BP_Size().x * parentView.BP_Pivot().x;
+        float y = v.y + view.BP_Size().y * view.BP_Pivot().y - parentView.BP_Size().y * parentView.BP_Pivot().y;
+
+        view.BP_RT().localPosition = new Vector3(x, y, v.z);
+    }
+
+    public static GameObject MakeupView(List<GameObject>viewArray, DIRECTION direction, float padding)
+    {
+
+        if(direction == DIRECTION.HORIZONTAL_TOP || direction == DIRECTION.HORIZONTAL_CENTER || direction == DIRECTION.HORIZONTAL_BOTTOM)
+        {
+            return MakeupView_horizontal(viewArray, direction, padding);
+        }
+        
+        else if(direction == DIRECTION.VERTICAL_LEFT || direction == DIRECTION.VERTICAL_CENTER || direction == DIRECTION.VERTICAL_RIGHT)
+        {
+            
+        }
+
+        return null;
+    }
+
+    ///
+    /// Sunmmary: 横向组合view
+    /// 
+    public static GameObject MakeupView_horizontal(List<GameObject>viewArray, DIRECTION direction, float padding)
+    {
+        float width = 0;
+        float height = 0;
+        foreach(GameObject subView in viewArray)
+        {
+            if(subView == null){
+                continue;
+            }
+
+            width += subView.BP_Size().x;
+            width += padding;
+            height = Mathf.Max(height, subView.BP_Size().y);
+        }
+
+        // 减去最后的padding
+        width -= padding;
+
+        // 创建一个底view
+        GameObject parentView = BPCommon.CreateGameObject("test");
+        parentView.BP_RT().pivot = new Vector2(0, 0);
+        SetRectTransformSize_GameObj(parentView, width, height);
+
+        float offsetX = 0;
+        foreach(GameObject subView in viewArray)
+        {
+            if(subView == null){
+                continue;
+            }
+
+            subView.transform.SetParent(parentView.transform);
+            float offsetY = 0;
+            
+            switch(direction)
+            {
+                case DIRECTION.HORIZONTAL_TOP:
+                    // offsetY = height - subView.BP_Size().y - parentView.BP_Pivot().y * height + subView.BP_Pivot().y * subView.BP_Size().y;
+                    offsetY = height - subView.BP_Size().y;
+                    break;
+
+                case DIRECTION.HORIZONTAL_CENTER:
+                    offsetY = (height - subView.BP_Size().y) / 2.0f;
+                    // offsetY = (height - subView.BP_Size().y) / 2.0f - parentView.BP_Pivot().y * height + subView.BP_Pivot().y * subView.BP_Size().y;
+                    break;
+
+                case DIRECTION.HORIZONTAL_BOTTOM:
+                    offsetY = 0f;
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            SetViewPositionByPoint(subView, offsetX, offsetY);
+            
+            offsetX += subView.BP_Size().x;
+            offsetX += padding;
+        }
+
+        return parentView;
+    }
+
+
+
+    public static void SetRectTransformSize_GameObj(GameObject obj, float x, float y)
+    {
+        SetRectTransformSize(obj.BP_RT(), x, y);
+    }
+
+    public static void SetRectTransformSize(RectTransform trans, float x, float y)
+    {
+        SetRectTransformSize(trans, new Vector2(x, y));
+    }
 
     public static void SetRectTransformSize(RectTransform trans, Vector2 newSize)
     {
@@ -175,6 +304,14 @@ public class BPCommon
         Vector2 deltaSize = newSize - oldSize;
         trans.offsetMin = trans.offsetMin - new Vector2(deltaSize.x * trans.pivot.x, deltaSize.y * trans.pivot.y);
         trans.offsetMax = trans.offsetMax + new Vector2(deltaSize.x * (1f - trans.pivot.x), deltaSize.y * (1f - trans.pivot.y));
+    }
+
+    public static GameObject CreateGameObject(string name="")
+    {
+        GameObject objRes = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/Container");
+        GameObject obj = GameObject.Instantiate(objRes);
+        obj.name = name;
+        return obj;
     }
 
 }

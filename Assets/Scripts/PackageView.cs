@@ -4,21 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PackageView : MonoBehaviour {	
+	int m_shopGridRow = 4;
+	int m_shopGridCol = 5;
+
 	void Awake() {
 		Debug.Log("PackageView awake");
 	}
 	
 	// Use this for initialization
 	void Start () {
-		Debug.Log("PackageView Start. PackageView Rect =>" + this.gameObject.BP_Rect());
-		Debug.Log("PackageView Start. AnchoredPosition ==> " + this.gameObject.BP_AnchoredPosition());
-		Debug.Log("PackageView Start. sizeDetla ==> " + this.gameObject.BP_SizeDelta());
-		Debug.Log("PackageView Start. anchorMax ==> " + this.gameObject.BP_AnchorMax() + " | " + this.gameObject.BP_AnchorMax().x + " | " + this.gameObject.BP_AnchorMax().y);
-		Debug.Log("PackageView Start. offsetMin ==> " + this.gameObject.BP_OffsetMin());
-
-
+		// Debug.Log("PackageView Start. PackageView Rect =>" + this.gameObject.BP_Rect());
+		// Debug.Log("PackageView Start. AnchoredPosition ==> " + this.gameObject.BP_AnchoredPosition());
+		// Debug.Log("PackageView Start. sizeDetla ==> " + this.gameObject.BP_SizeDelta());
+		// Debug.Log("PackageView Start. anchorMax ==> " + this.gameObject.BP_AnchorMax() + " | " + this.gameObject.BP_AnchorMax().x + " | " + this.gameObject.BP_AnchorMax().y);
+		// Debug.Log("PackageView Start. offsetMin ==> " + this.gameObject.BP_OffsetMin());
 		// Debug.Log("PackageView Start");
-		// this.InitChildView();
+		
+		this.InitChildView();
 		this.InitListenner();
 	}
 	
@@ -37,26 +39,38 @@ public class PackageView : MonoBehaviour {
 	}
 
 	///
-	///
+	/// Summary
+	/// 动态初始化
 	private void InitChildView()
 	{
-		GameObject shopViewObj = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/ShopView");
-		GameObject shopView = GameObject.Instantiate(shopViewObj);
-		shopView.transform.SetParent(this.transform);
+		GameObject shopView = GameObject.Find("GridView");
+		GameObject resGridObj = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/OneGridView");
 		
+		List<GameObject> suvViewArray = new List<GameObject>();
+		for(int i = 0; i < m_shopGridRow; i++)
+		{
+			suvViewArray.Clear();
+			Debug.Log("gridViewArray size ==> " + suvViewArray.Count);
 
-		
-		// showViewRT.transform.localPosition = new Vector3(0f, 0f, 1f);
-		// Debug.Log("showViewRT ==> " + showViewRT.rect);
+			for(int j=0; j < m_shopGridCol; j++)
+			{
+				GameObject gridView =  GameObject.Instantiate(resGridObj);
+				gridView.transform.SetParent(shopView.transform);
+				suvViewArray.Add(gridView);
 
-		// float shopViewWidth = this.GetComponent<RectTransform>().rect.width * 0.47f;
-		// float showViewHeight = this.GetComponent<RectTransform>().rect.height * 0.98f;
+				// Debug.Log("gridView Size ==>" + gridView.BP_Size());	
+				// gridView.BP_RT().localPosition = new Vector3(0f, 0f, 0f);
+				// BPCommon.SetViewPosition(gridView, BPCommon.POSITION.CENTER);
+				// return;
+			}
 
-		// Debug.Log("shopViewWidth=> "+ shopViewWidth + " showViewHeight => " + showViewHeight);
-
-		// BPCommon.SetRectTransformSize(shopView.GetComponent<RectTransform>(), new Vector2(shopViewWidth, showViewHeight));
-		// shopView.GetComponent<RectTransform>().transform.localPosition = new Vector2(50f, 50f);
-		// Debug.Log("XXX InitChildView ==> " + shopView.transform.localPosition + " | " + shopView.GetComponent<RectTransform>().rect);
+			GameObject parentView = BPCommon.MakeupView(suvViewArray, BPCommon.DIRECTION.HORIZONTAL_CENTER, 3f);
+			parentView.BP_RT().SetParent(shopView.transform);
+			
+			float x = (shopView.BP_Size().x  - parentView.BP_Size().x)/2f;
+			BPCommon.SetViewPositionByPoint(parentView, x, shopView.BP_Size().y  - parentView.BP_Size().y - 5f);
+			return;
+		}
 	}
 
 	///
