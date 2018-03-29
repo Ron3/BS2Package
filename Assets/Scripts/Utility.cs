@@ -754,7 +754,7 @@ public class Utility
         /// </summary>
         public static Sprite ResourcesLoadSprite(string name)
         {
-            return ResourcesLoadCheckNull<Sprite>("Sprites/" + name);
+            return ResourcesLoadCheckNull<Sprite>(name);
         }
 
         /// <summary>

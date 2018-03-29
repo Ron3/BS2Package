@@ -26,7 +26,23 @@ public class StartGame : MonoBehaviour {
     
     public void OnStartGameBtnClick(Button btn)
     {
-        GameObject button = GameObject.Find("StartGameButton");
+        // GameObject button = GameObject.Find("StartGameButton");
+        
+        // GameObject button = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/Container");
+        // Debug.Log("Size ==> " + button.BP_SizeDelta());
+        // Debug.Log("BP_AnchorMax ==> " + button.BP_AnchorMax());
+        // Debug.Log("BP_AnchorMin ==> " + button.BP_AnchorMin());
+        // Debug.Log("anchoredPosition ==> " + button.BP_RT().anchoredPosition);
+        // Vector2 max = button.BP_AnchorMax();
+        // Vector2 min = button.BP_AnchorMin();
+        // button.BP_RT().anchorMax = new Vector2(0, 0);
+        // button.BP_RT().anchorMin = new Vector2(0, 0);
+        // Debug.Log("Size ==>  2222 " + button.BP_SizeDelta());
+        // Debug.Log("BP_AnchorMax ==> 2222 " + button.BP_AnchorMax());
+        // Debug.Log("BP_AnchorMin ==> 2222 " + button.BP_AnchorMin());
+        // button.BP_RT().anchorMax = max;
+        // button.BP_RT().anchorMin = min;
+        
 
         // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.CENTER);
         // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.CENTER_LEFT);

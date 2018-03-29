@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class PackageView : MonoBehaviour {	
 	int m_shopGridRow = 4;
 	int m_shopGridCol = 5;
+	string m_strGridNameFormatProvider = "OneGridView_{0}";
+	string m_strShopItemFormatProvider = "ron_shopItem_{0}";
+	
 
 	void Awake() {
 		Debug.Log("PackageView awake");
@@ -21,6 +24,7 @@ public class PackageView : MonoBehaviour {
 		// Debug.Log("PackageView Start");
 		
 		this.InitChildView();
+		this.InitShopItem();
 		this.InitListenner();
 	}
 	
@@ -45,19 +49,29 @@ public class PackageView : MonoBehaviour {
 	{
 		GameObject resGridObj = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/OneGridView");
 		
+		int index = 0;
 		List<GameObject> colViewArray = new List<GameObject>();
 		List<GameObject> rowViewArray = new List<GameObject>();
 		for(int i = 0; i < m_shopGridRow; i++)
 		{
 			rowViewArray.Clear();
-			Debug.Log("gridViewArray size ==> " + rowViewArray.Count);
-
 			for(int j=0; j < m_shopGridCol; j++)
 			{
 				GameObject oneGridView =  GameObject.Instantiate(resGridObj);
 				rowViewArray.Add(oneGridView);
+				oneGridView.name = string.Format(m_strGridNameFormatProvider, index);
+				// Debug.Log("oneGridView.name ==> " + oneGridView.name);
+				// 隐藏其中4个格子
+				if(index == 10 || index == 11 || index == 15 || index == 16){
+					oneGridView.SetActive(false);
+				}
+				
+				// ui调试信息
+				oneGridView.BP_AttachText(oneGridView.name);
+				
+				index += 1;
 			}
-
+			
 			// 得到一个横向组合的
 			GameObject horizontalView = BPUICommon.MakeupView(rowViewArray, BPUICommon.DIRECTION.HORIZONTAL_CENTER, 6f);
 			colViewArray.Add(horizontalView);
@@ -65,12 +79,27 @@ public class PackageView : MonoBehaviour {
 
 		// 最后竖向组合.得到一个完整的格子的view
 		GameObject gridParentView = GameObject.Find("GridView");
-		// GameObject gridParentView = GameObject.Find("Canvas");
 		GameObject gridView = BPUICommon.MakeupView(colViewArray, BPUICommon.DIRECTION.VERTICAL_CENTER, 10f);
-		// gridView.GetComponent<Material>().color = Color.blue;
 		gridView.transform.SetParent(gridParentView.transform);
-		// BPUICommon.SetVisionPositionByPoint(gridView, 0, 0);
 		BPUICommon.SetVisionPositionByBPPos(gridView, BPUICommon.POSITION.CENTER);
+	}
+
+	///
+	/// 把商品画上去
+	private void InitShopItem()
+	{
+		int index = 0;
+		List<Item> shopItemList = GameData.Instance.GetShopItemList();
+		foreach(Item item in shopItemList)
+		{
+			Debug.Log("drawItem ==> " + index);
+			GameObject itemView = item.CreateItemView();
+			itemView.name = string.Format(m_strShopItemFormatProvider, index);
+			GameObject gridView = GameObject.Find(string.Format(this.m_strGridNameFormatProvider, index));
+			itemView.BP_SetParent(gridView);
+			
+			index += 1;
+		}
 	}
 
 	///

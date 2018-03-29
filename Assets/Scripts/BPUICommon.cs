@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 ///
@@ -27,6 +28,24 @@ public static class MonoBehaviourExtension
 
 public static class GameObjectExtension
 {
+    public static void BP_SetParent(this GameObject obj, GameObject parentObj, BPUICommon.POSITION pos=BPUICommon.POSITION.CENTER)
+    {
+        if(obj == null){
+            return;
+        }
+
+        if(parentObj == null)
+        {
+            obj.transform.SetParent(null);
+        }
+        else
+        {
+            obj.transform.SetParent(parentObj.transform);
+            BPUICommon.SetVisionPositionByBPPos(obj, pos);
+        }
+        
+    }
+
     public static RectTransform BP_RT(this GameObject obj)
     {
         if(obj == null)
@@ -131,6 +150,17 @@ public static class GameObjectExtension
 
         return true;
     }
+
+    public static void BP_AttachText(this GameObject obj, string text)
+    {
+        if(obj == null){
+            return;
+        }
+
+        // ui调试信息
+        GameObject textObj = BPUICommon.CreateTextObject(text);
+        textObj.BP_SetParent(obj);
+    }
 }
 
 
@@ -151,7 +181,7 @@ public class BPUICommon
 
     ///
     /// 设置坐标
-    public static void SetVisionPositionByBPPos(GameObject view, POSITION targetPos)
+    public static void SetVisionPositionByBPPos(GameObject view, POSITION targetPos=POSITION.CENTER)
     {
         if(view == null || view.transform.parent.gameObject == null){
             return;
@@ -345,6 +375,9 @@ public class BPUICommon
         // 减去最后的padding
         height -= padding;
 
+        // 从上往下布局(跟上一个项目一样)
+        viewArray.Reverse();
+
         // 创建一个底view
         GameObject parentView = BPUICommon.CreateGameObject("test");
         parentView.BP_RT().pivot = new Vector2(0.5f, 0.5f);
@@ -413,6 +446,15 @@ public class BPUICommon
         return obj;
     }
 
+    public static GameObject CreateTextObject(string text)
+    {
+        GameObject objRes = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/Container_text");
+        GameObject obj = GameObject.Instantiate(objRes);
+        Text textObj = obj.GetComponent<Text>();
+        textObj.text = text;
+        textObj.color = Color.gray;
+        return obj;
+    }
 }
 
 

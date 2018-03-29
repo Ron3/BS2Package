@@ -6,6 +6,8 @@ public class UIRoot : MonoBehaviour {
 
 	void Awake()
 	{
+		GameData.Instance.Init();
+
 		UIManager.Instance.SetCanvasRoot(this.gameObject);
 		UIManager.Instance.Init();
 	}
