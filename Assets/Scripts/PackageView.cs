@@ -43,29 +43,34 @@ public class PackageView : MonoBehaviour {
 	/// 动态初始化
 	private void InitChildView()
 	{
-		GameObject shopView = GameObject.Find("GridView");
 		GameObject resGridObj = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>("Panel/OneGridView");
 		
-		List<GameObject> suvViewArray = new List<GameObject>();
+		List<GameObject> colViewArray = new List<GameObject>();
+		List<GameObject> rowViewArray = new List<GameObject>();
 		for(int i = 0; i < m_shopGridRow; i++)
 		{
-			suvViewArray.Clear();
-			Debug.Log("gridViewArray size ==> " + suvViewArray.Count);
+			rowViewArray.Clear();
+			Debug.Log("gridViewArray size ==> " + rowViewArray.Count);
 
 			for(int j=0; j < m_shopGridCol; j++)
 			{
-				GameObject gridView =  GameObject.Instantiate(resGridObj);
-				gridView.transform.SetParent(shopView.transform);
-				suvViewArray.Add(gridView);
+				GameObject oneGridView =  GameObject.Instantiate(resGridObj);
+				rowViewArray.Add(oneGridView);
 			}
 
-			GameObject parentView = BPCommon.MakeupView(suvViewArray, BPCommon.DIRECTION.HORIZONTAL_CENTER, 6f);
-			parentView.BP_RT().SetParent(shopView.transform);
-			
-			float x = (shopView.BP_Size().x  - parentView.BP_Size().x)/2f;
-			BPCommon.SetVisionPositionByPoint(parentView, x, shopView.BP_Size().y  - parentView.BP_Size().y - 10f);
-			
+			// 得到一个横向组合的
+			GameObject horizontalView = BPUICommon.MakeupView(rowViewArray, BPUICommon.DIRECTION.HORIZONTAL_CENTER, 6f);
+			colViewArray.Add(horizontalView);
 		}
+
+		// 最后竖向组合.得到一个完整的格子的view
+		GameObject gridParentView = GameObject.Find("GridView");
+		// GameObject gridParentView = GameObject.Find("Canvas");
+		GameObject gridView = BPUICommon.MakeupView(colViewArray, BPUICommon.DIRECTION.VERTICAL_CENTER, 10f);
+		// gridView.GetComponent<Material>().color = Color.blue;
+		gridView.transform.SetParent(gridParentView.transform);
+		// BPUICommon.SetVisionPositionByPoint(gridView, 0, 0);
+		BPUICommon.SetVisionPositionByBPPos(gridView, BPUICommon.POSITION.CENTER);
 	}
 
 	///

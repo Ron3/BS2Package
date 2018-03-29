@@ -51,7 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Common.cs" />
+     <Compile Include="Assets\Scripts\BPUICommon.cs" />
      <Compile Include="Assets\Scripts\PackageView.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
      <Compile Include="Assets\Scripts\StartGame.cs" />

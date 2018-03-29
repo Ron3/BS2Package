@@ -37,7 +37,6 @@ public class UIManager : Singleton<UIManager> {
 	/// <summary>
 	/// Shows the panel.
 	/// </summary>
-	/// <param name="name">Name.</param>
 	public void ShowPanel(string name)
 	{
         if (this.isPanelLive(name) == true)
@@ -55,14 +54,14 @@ public class UIManager : Singleton<UIManager> {
         GameObject panel = GameObject.Instantiate(obj);
 		m_PanelDic.Add(name, panel);
 		panel.transform.SetParent(m_CanvasRoot.transform);
-		BPCommon.SetViewPosition(panel, BPCommon.POSITION.CENTER);
+		BPUICommon.SetVisionPositionByBPPos(panel, BPUICommon.POSITION.CENTER);
 
 		// Resolution[] resolutions = Screen.resolutions;
         // Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);    
 		// float height = resolutions[0].height;
 		// float width = resolutions[0].width;
 		// Debug.Log("Screen height ==> " + height + "  width => " + width);
-		// BPCommon.SetRectTransformSize(panel.GetComponent<RectTransform>(), m_CanvasRoot.BP_Size());
+		// BPUICommon.SetRectTransformSize(panel.GetComponent<RectTransform>(), m_CanvasRoot.BP_Size());
 		// RectTransform panelRectTransform = panel.GetComponent<RectTransform>();
 		// Debug.Log(panel.transform.localPosition + " | " + panelRectTransform.pivot);
 		// GameObject btn = GameObject.Find("StartGameButton");

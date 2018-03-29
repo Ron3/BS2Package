@@ -134,39 +134,79 @@ public static class GameObjectExtension
 }
 
 
-public class BPCommon
+public class BPUICommon
 {
-    public enum POSITION {CENTER, LEFT_BOTTOM};
+    public enum POSITION {CENTER,               // 居中
+                            CENTER_LEFT,        // 靠左居中
+                            CENTER_RIGHT,       // 靠右居中
+                            BOTTOM_LEFT,        // 靠底居左
+                            BOTTOM_CENTER,      // 靠底居中
+                            BOTTOM_RIGHT,       // 靠底居右
+                            TOP_LEFT,           // 靠上居左
+                            TOP_CENTER,         // 靠上居中
+                            TOP_RIGHT           // 靠上居右
+                            };          
+
     public enum DIRECTION {HORIZONTAL_TOP, HORIZONTAL_CENTER, HORIZONTAL_BOTTOM, VERTICAL_CENTER, VERTICAL_LEFT, VERTICAL_RIGHT};
 
     ///
     /// 设置坐标
-    public static void SetViewPosition(GameObject view, POSITION targetPos)
+    public static void SetVisionPositionByBPPos(GameObject view, POSITION targetPos)
     {
-        if(view == null){
+        if(view == null || view.transform.parent.gameObject == null){
             return;
         }
 
+        // 这里的x,y是视角坐标(与左下角为0,0坐标系的)
+        float x = 0, y = 0;     
         GameObject parentView = view.transform.parent.gameObject;
-        if(parentView == null){
-            return;
-        }
-
-        // 假设目前只能处理这种情况
-        if(parentView.BP_IsAnchorsPoint() == false){
-            return;
-        }
-
-        float parentViewWidth = parentView.BP_Width();
-        float parentViewHeight = parentView.BP_Height();
-
-        if(targetPos == BPCommon.POSITION.CENTER)
+        if(targetPos == BPUICommon.POSITION.CENTER)
         {
-            float x = parentViewWidth / 2.0f - parentView.BP_RT().pivot.x * parentViewWidth;
-            float y = parentViewHeight / 2.0f - parentView.BP_RT().pivot.y * parentViewHeight;
-
-            view.BP_RT().localPosition = new Vector3(x, y, 0f);
+            x = (parentView.BP_Size().x - view.BP_Size().x) / 2f;
+            y = (parentView.BP_Size().y - view.BP_Size().y) / 2f;
         }
+        else if(targetPos == BPUICommon.POSITION.CENTER_LEFT)
+        {
+            x = 0;
+            y = (parentView.BP_Size().y - view.BP_Size().y) / 2f;
+        }
+        else if(targetPos == BPUICommon.POSITION.CENTER_RIGHT)
+        {
+            x = parentView.BP_Size().x - view.BP_Size().x;
+            y = (parentView.BP_Size().y - view.BP_Size().y) / 2f;
+        }
+        else if(targetPos == BPUICommon.POSITION.BOTTOM_LEFT)
+        {
+            x = 0;
+            y = 0;
+        }
+        else if(targetPos == BPUICommon.POSITION.BOTTOM_CENTER)
+        {
+            x = (parentView.BP_Size().x - view.BP_Size().x) / 2f;
+            y = 0;
+        }
+        else if(targetPos == BPUICommon.POSITION.BOTTOM_RIGHT)
+        {
+            x = parentView.BP_Size().x - view.BP_Size().x;
+            y = 0;
+        }
+        else if(targetPos == BPUICommon.POSITION.TOP_LEFT)
+        {
+            x = 0;
+            y = parentView.BP_Size().y - view.BP_Size().y;
+        }
+        else if(targetPos == BPUICommon.POSITION.TOP_CENTER)
+        {
+            x = (parentView.BP_Size().x - view.BP_Size().x) / 2f;
+            y = parentView.BP_Size().y - view.BP_Size().y;
+        }
+        else if(targetPos == BPUICommon.POSITION.TOP_RIGHT)
+        {
+            x = parentView.BP_Size().x - view.BP_Size().x;
+            y = parentView.BP_Size().y - view.BP_Size().y;
+        }
+
+        SetVisionPositionByPoint(view, x, y);
     }
 
     ///
@@ -215,7 +255,7 @@ public class BPCommon
         
         else if(direction == DIRECTION.VERTICAL_LEFT || direction == DIRECTION.VERTICAL_CENTER || direction == DIRECTION.VERTICAL_RIGHT)
         {
-            
+            return MakeupView_vertical(viewArray, direction, padding);
         }
 
         return null;
@@ -243,8 +283,8 @@ public class BPCommon
         width -= padding;
 
         // 创建一个底view
-        GameObject parentView = BPCommon.CreateGameObject("test");
-        parentView.BP_RT().pivot = new Vector2(0, 0);
+        GameObject parentView = BPUICommon.CreateGameObject("test");
+        parentView.BP_RT().pivot = new Vector2(0.5f, 0.5f);
         SetRectTransformSize_GameObj(parentView, width, height);
 
         float offsetX = 0;
@@ -260,13 +300,11 @@ public class BPCommon
             switch(direction)
             {
                 case DIRECTION.HORIZONTAL_TOP:
-                    // offsetY = height - subView.BP_Size().y - parentView.BP_Pivot().y * height + subView.BP_Pivot().y * subView.BP_Size().y;
                     offsetY = height - subView.BP_Size().y;
                     break;
 
                 case DIRECTION.HORIZONTAL_CENTER:
                     offsetY = (height - subView.BP_Size().y) / 2.0f;
-                    // offsetY = (height - subView.BP_Size().y) / 2.0f - parentView.BP_Pivot().y * height + subView.BP_Pivot().y * subView.BP_Size().y;
                     break;
 
                 case DIRECTION.HORIZONTAL_BOTTOM:
@@ -275,7 +313,6 @@ public class BPCommon
 
                 default:
                     break;
-
             }
 
             SetVisionPositionByPoint(subView, offsetX, offsetY);
@@ -287,7 +324,68 @@ public class BPCommon
         return parentView;
     }
 
+    ///
+    /// 竖向组合view
+    /// 
+    public static GameObject MakeupView_vertical(List<GameObject>viewArray, DIRECTION direction, float padding)
+    {
+        float width = 0;
+        float height = 0;
+        foreach(GameObject subView in viewArray)
+        {
+            if(subView == null){
+                continue;
+            }
 
+            height += subView.BP_Size().y;
+            height += padding;
+            width = Mathf.Max(width, subView.BP_Size().x);
+        }
+
+        // 减去最后的padding
+        height -= padding;
+
+        // 创建一个底view
+        GameObject parentView = BPUICommon.CreateGameObject("test");
+        parentView.BP_RT().pivot = new Vector2(0.5f, 0.5f);
+        SetRectTransformSize_GameObj(parentView, width, height);
+
+        float offsetY = 0;
+        foreach(GameObject subView in viewArray)
+        {
+            if(subView == null){
+                continue;
+            }
+
+            subView.transform.SetParent(parentView.transform);
+            float offsetX = 0;
+            
+            switch(direction)
+            {
+                case DIRECTION.VERTICAL_LEFT:
+                    offsetX = 0;
+                    break;
+
+                case DIRECTION.VERTICAL_CENTER:
+                    offsetX = (width - subView.BP_Size().x) / 2.0f;
+                    break;
+
+                case DIRECTION.VERTICAL_RIGHT:
+                    offsetY = width - subView.BP_Size().x;
+                    break;
+
+                default:
+                    break;
+            }
+
+            SetVisionPositionByPoint(subView, offsetX, offsetY);
+
+            offsetY += subView.BP_Size().y;
+            offsetY += padding;
+        }
+
+        return parentView;
+    }
 
     public static void SetRectTransformSize_GameObj(GameObject obj, float x, float y)
     {

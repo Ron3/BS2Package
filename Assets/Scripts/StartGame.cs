@@ -27,20 +27,28 @@ public class StartGame : MonoBehaviour {
     public void OnStartGameBtnClick(Button btn)
     {
         GameObject button = GameObject.Find("StartGameButton");
-        BPCommon.SetVisionPositionByPoint(button, 0, 0);
 
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.CENTER);
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.CENTER_LEFT);
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.CENTER_RIGHT);
+
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.BOTTOM_LEFT);
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.BOTTOM_CENTER);
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.BOTTOM_RIGHT);
+
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.TOP_LEFT);
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.TOP_CENTER);
+        // BPUICommon.SetVisionPositionByBPPos(button, BPUICommon.POSITION.TOP_RIGHT);
+
+        // BPUICommon.SetVisionPositionByPoint(button, 0, 0);
         // Debug.Log("StartGameButton localPosition=> " + button.transform.localPosition);
         // Debug.Log("StartGameButton position=> " + button.transform.position);
         // Debug.Log(button.BP_RT().rect);
-
         // GameObject canvas = GameObject.Find("Canvas");
         // Debug.Log("canvas localPosition=> " + canvas.transform.localPosition);
         // Debug.Log("canvas position=> " + canvas.transform.position);
         // Debug.Log("canvas rect ==> " + canvas.BP_RT().rect);
         
-        // UIManager.Instance.ShowPanel("Panel/Package");
-
-        
-
+        UIManager.Instance.ShowPanel("Panel/Package");
     }
 }
