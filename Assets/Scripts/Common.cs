@@ -171,23 +171,23 @@ public class BPCommon
 
     ///
     /// 这个坐标,只是视角上的坐标
-    public static void SetViewPositionByPoint(GameObject view, float x, float y, float z=0)
+    public static void SetVisionPositionByPoint(GameObject view, float x, float y, float z=0)
     {
-        SetViewPositionByPoint(view, new Vector3(x, y, z));
+        SetVisionPositionByPoint(view, new Vector3(x, y, z));
     }
 
     ///
     /// 这个坐标,只是视角上的坐标
-    public static void SetViewPositionByPoint(GameObject view, Vector2 v, float z=0)
+    public static void SetVisionPositionByPoint(GameObject view, Vector2 v, float z=0)
     {
-        SetViewPositionByPoint(view, new Vector3(v.x, v.y, z));
+        SetVisionPositionByPoint(view, new Vector3(v.x, v.y, z));
     }
 
     ///
     /// Summary
     /// 目前无法支持锚点在4个角那种情况.只能支持锚点在1个点的(这样才能正确获取大小)
     /// v这个参数是根据父窗口的左下角为(0, 0)坐标系的值
-    public static void SetViewPositionByPoint(GameObject view, Vector3 v)
+    public static void SetVisionPositionByPoint(GameObject view, Vector3 v)
     {
         if(view == null || view.BP_IsAnchorsPoint() == false){
             return;
@@ -198,6 +198,7 @@ public class BPCommon
         float width = parentSize.x;
         float height = parentSize.y;
 
+        // 视觉坐标先加上子view的锚点距离. 在转换成在父窗口的坐标值(即是这个点是子view的本地坐标)
         float x = v.x + view.BP_Size().x * view.BP_Pivot().x - parentView.BP_Size().x * parentView.BP_Pivot().x;
         float y = v.y + view.BP_Size().y * view.BP_Pivot().y - parentView.BP_Size().y * parentView.BP_Pivot().y;
 
@@ -277,8 +278,8 @@ public class BPCommon
 
             }
 
-            SetViewPositionByPoint(subView, offsetX, offsetY);
-            
+            SetVisionPositionByPoint(subView, offsetX, offsetY);
+
             offsetX += subView.BP_Size().x;
             offsetX += padding;
         }

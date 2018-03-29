@@ -57,19 +57,14 @@ public class PackageView : MonoBehaviour {
 				GameObject gridView =  GameObject.Instantiate(resGridObj);
 				gridView.transform.SetParent(shopView.transform);
 				suvViewArray.Add(gridView);
-
-				// Debug.Log("gridView Size ==>" + gridView.BP_Size());	
-				// gridView.BP_RT().localPosition = new Vector3(0f, 0f, 0f);
-				// BPCommon.SetViewPosition(gridView, BPCommon.POSITION.CENTER);
-				// return;
 			}
 
-			GameObject parentView = BPCommon.MakeupView(suvViewArray, BPCommon.DIRECTION.HORIZONTAL_CENTER, 3f);
+			GameObject parentView = BPCommon.MakeupView(suvViewArray, BPCommon.DIRECTION.HORIZONTAL_CENTER, 6f);
 			parentView.BP_RT().SetParent(shopView.transform);
 			
 			float x = (shopView.BP_Size().x  - parentView.BP_Size().x)/2f;
-			BPCommon.SetViewPositionByPoint(parentView, x, shopView.BP_Size().y  - parentView.BP_Size().y - 5f);
-			return;
+			BPCommon.SetVisionPositionByPoint(parentView, x, shopView.BP_Size().y  - parentView.BP_Size().y - 10f);
+			
 		}
 	}
 

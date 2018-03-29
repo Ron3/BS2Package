@@ -26,7 +26,9 @@ public class StartGame : MonoBehaviour {
     
     public void OnStartGameBtnClick(Button btn)
     {
-        // GameObject button = GameObject.Find("StartGameButton");
+        GameObject button = GameObject.Find("StartGameButton");
+        BPCommon.SetVisionPositionByPoint(button, 0, 0);
+
         // Debug.Log("StartGameButton localPosition=> " + button.transform.localPosition);
         // Debug.Log("StartGameButton position=> " + button.transform.position);
         // Debug.Log(button.BP_RT().rect);
@@ -36,6 +38,9 @@ public class StartGame : MonoBehaviour {
         // Debug.Log("canvas position=> " + canvas.transform.position);
         // Debug.Log("canvas rect ==> " + canvas.BP_RT().rect);
         
-        UIManager.Instance.ShowPanel("Panel/Package");
+        // UIManager.Instance.ShowPanel("Panel/Package");
+
+        
+
     }
 }
