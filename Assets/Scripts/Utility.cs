@@ -742,7 +742,7 @@ public class Utility
             T loadGo = Resources.Load<T>(name);
             if (loadGo == null)
             {
-                Debug.LogError("Resources.Load [ " + name + " ] is Null !!");
+                Debug.Log("Resources.Load [ " + name + " ] is Null !!");
                 return default(T);
             }
 

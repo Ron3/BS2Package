@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\BPUICommon.cs" />
+     <Compile Include="Assets\Scripts\Data\Conf.cs" />
      <Compile Include="Assets\Scripts\Data\GameData.cs" />
      <Compile Include="Assets\Scripts\Data\Item.cs" />
      <Compile Include="Assets\Scripts\PackageView.cs" />

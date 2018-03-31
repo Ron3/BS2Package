@@ -135,6 +135,11 @@ public static class GameObjectExtension
         return obj.BP_RT().offsetMin;
     }
 
+    public static Image BP_Image(this GameObject obj)
+    {
+        return obj.GetComponent<Image>();
+    }
+
     /// 判定Anchors是否是一个点
     public static bool BP_IsAnchorsPoint(this GameObject obj)
     {
@@ -437,6 +442,21 @@ public class BPUICommon
         trans.offsetMin = trans.offsetMin - new Vector2(deltaSize.x * trans.pivot.x, deltaSize.y * trans.pivot.y);
         trans.offsetMax = trans.offsetMax + new Vector2(deltaSize.x * (1f - trans.pivot.x), deltaSize.y * (1f - trans.pivot.y));
     }
+
+    ///
+    /// 根据容器名字.加载不同的GameObject
+    public static GameObject CreateGameObjectByContainerName(string containerPath, string name="")
+    {
+        GameObject objRes = Utility.AssetRelate.ResourcesLoadCheckNull<GameObject>(containerPath);
+        if(objRes == null){
+            return null;
+        }
+
+        GameObject obj = GameObject.Instantiate(objRes);
+        obj.name = name;
+        return obj;
+    }
+
 
     public static GameObject CreateGameObject(string name="")
     {
