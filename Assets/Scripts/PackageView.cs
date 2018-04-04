@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PackageView : MonoBehaviour {	
 	int m_shopGridRow = 4;
 	int m_shopGridCol = 5;
 	string m_strGridNameFormatProvider = "OneGridView_{0}";
 	string m_strShopItemFormatProvider = "ron_shopItem_{0}";
+
+	List<GameObject> m_itemViewList;
 	
 
 	void Awake() {
@@ -88,17 +91,21 @@ public class PackageView : MonoBehaviour {
 	/// 把商品画上去
 	private void InitShopItem()
 	{
+		this.m_itemViewList = new List<GameObject>();
+
 		int index = 0;
 		List<Item> shopItemList = GameData.Instance.GetShopItemList();
 		foreach(Item item in shopItemList)
 		{
-			Debug.Log("drawItem ==> " + index);
-			GameObject itemView = item.CreateItemView();
+			// Debug.Log("drawItem ==> " + index);
+			GameObject itemView = item.CreateItemView(this);
 			itemView.name = string.Format(m_strShopItemFormatProvider, index);
 			GameObject gridView = GameObject.Find(string.Format(this.m_strGridNameFormatProvider, index));
 			itemView.BP_SetParent(gridView);
-			
 			index += 1;
+
+			// 最后记录在数组里面.
+			this.m_itemViewList.Add(itemView);
 		}
 	}
 
@@ -114,4 +121,42 @@ public class PackageView : MonoBehaviour {
         });
 	}
 
+
+	/// Summary
+	/// 当手指按下某个物品的时候
+	public void OnPointerDown(PointerEventData eventData, ItemViewEvent eventObj)
+	{
+		Debug.Log("PackageView ==> OnPointerDown");
+		if(eventObj == null){
+			return;
+		}
+
+		
+		// // 1, 首先找到所有物品的. 然后隐藏他的光环
+		// foreach(GameObject obj in this.m_itemViewList)
+		// {
+		// 	Transform haloObj = obj.transform.Find("halo");
+		// 	haloObj.gameObject.SetActive(false);
+		// }
+
+		// 2, 在高亮当前的
+		Transform currentHaloObj = eventObj.itemView.transform.Find("halo");
+		currentHaloObj.gameObject.SetActive(true);
+
+	}
+
+
+	/// Summary
+	/// 手指松开.结束拖动
+	public void OnPointerUp(PointerEventData eventData, ItemViewEvent eventObj)
+	{
+		// Debug.Log("PackageView ==> OnPointerUp");
+	}
+
+	/// Summary:
+	/// 拖动
+	public void OnDrag(PointerEventData eventData, ItemViewEvent eventObj)
+	{
+		Debug.Log("PackageView ==> OnDrag");
+	}
 }

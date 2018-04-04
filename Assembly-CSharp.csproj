@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Data\Conf.cs" />
      <Compile Include="Assets\Scripts\Data\GameData.cs" />
      <Compile Include="Assets\Scripts\Data\Item.cs" />
+     <Compile Include="Assets\Scripts\ItemViewEvent.cs" />
      <Compile Include="Assets\Scripts\PackageView.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
      <Compile Include="Assets\Scripts\StartGame.cs" />

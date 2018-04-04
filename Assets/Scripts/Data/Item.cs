@@ -115,7 +115,7 @@ public class Item{
 	///
 	/// 创建一个itemView
 	///
-	public GameObject CreateItemView(float width=100f, float height=100f)
+	public GameObject CreateItemView(PackageView delegateObj = null, float width=100f, float height=100f)
 	{
 		// 1, 创建rank的底图
 		GameObject rankObj = BPUICommon.CreateGameObjectByContainerName("Panel/Container_image");
@@ -148,6 +148,21 @@ public class Item{
 		GameObject startView = BPUICommon.MakeupView(starViewList, BPUICommon.DIRECTION.VERTICAL_CENTER, 0);
 		startView.BP_SetParent(rankObj);
 		BPUICommon.SetVisionPositionByBPPos(startView, BPUICommon.POSITION.CENTER_RIGHT);
+
+		// 4, 创建光环
+		GameObject haloObj = BPUICommon.CreateGameObjectByContainerName("Component/HaloButton");
+		// haloObj.BP_Image().sprite = Utility.AssetRelate.ResourcesLoadSprite("Images/outline_square");
+		// haloObj.BP_Image().type = Image.Type.Filled;
+		// haloObj.SetActive(false);
+		BPUICommon.SetRectTransformSize_GameObj(haloObj, width, height);
+		haloObj.BP_SetParent(rankObj);
+		haloObj.name = "halo";
+				
+		//  5, 给他一个事件处理的回调入口
+		ItemViewEvent eventObj = rankObj.AddComponent<ItemViewEvent>();
+		eventObj.DelegateObj = delegateObj;
+		eventObj.itemView = rankObj;
+		eventObj.itemObj = this;
 		
 		return rankObj;
 	}
