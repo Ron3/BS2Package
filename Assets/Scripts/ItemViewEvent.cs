@@ -18,7 +18,7 @@ public class ItemViewEvent : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 	public PackageView delegateObj;
 	public GameObject itemView;
 	public Item itemObj;
-
+	
 	///
 	///
 	public PackageView DelegateObj{

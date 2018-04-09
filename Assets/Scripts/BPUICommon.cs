@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
 ///
@@ -165,6 +166,32 @@ public static class GameObjectExtension
         // ui调试信息
         GameObject textObj = BPUICommon.CreateTextObject(text);
         textObj.BP_SetParent(obj);
+    }
+
+    ///
+    /// Summary
+    /// 递归遍历子孩子.找到第一个名字吻合的
+    public static GameObject BP_Find(this GameObject parentObj, string name)
+    {
+        if(parentObj == null || name == null){
+            return null;
+        }
+
+        // 1, 找第一层.
+        Transform childTR = parentObj.transform.Find(name);
+        if(childTR != null){
+            return childTR.gameObject;
+        }
+
+        // 2, 到了这里.即表示要遍历找它子节点
+        foreach(Transform tr in parentObj.transform){
+           GameObject childObj = tr.gameObject.BP_Find(name);
+           if(childObj != null){
+               return childObj;
+           }
+        }
+
+        return null;
     }
 }
 
@@ -475,6 +502,42 @@ public class BPUICommon
         textObj.color = Color.gray;
         return obj;
     }
+
+    // Summary
+    // 向命中的控件渗透消息
+    public static void PassEvent<T>(PointerEventData data, ExecuteEvents.EventFunction<T> function) where T: IEventSystemHandler
+	{
+		GameObject current = data.pointerCurrentRaycast.gameObject;
+		List<RaycastResult> resultList = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(data, resultList); 
+		foreach(RaycastResult obj in resultList)
+        {
+            if(current.gameObject != obj.gameObject){
+				ExecuteEvents.Execute(obj.gameObject, data, function);
+			}
+		}
+	}   
+
+
+    /// Summary
+    /// 得到射线命中的所有GameObject
+    public static List<GameObject> GetHitGameObject(PointerEventData data)
+	{
+        List<GameObject> hitList = new List<GameObject>();
+
+		// GameObject current = data.pointerCurrentRaycast.gameObject;
+        // hitList.Add(current);
+
+		List<RaycastResult> resultList = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(data, resultList); 
+		foreach(RaycastResult obj in resultList)
+        {
+            hitList.Add(obj.gameObject);
+		}
+
+        return hitList;
+	}   
+
 }
 
 
