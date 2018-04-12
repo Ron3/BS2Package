@@ -3,13 +3,14 @@ using UnityEditor;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using UnityEngine.UI;
 
 public class AutoLayoutTest {
 
 	[Test]
 	public void TestLayout() 
 	{
-		GameObject panelObj = GameObject.Find("Panel");
+		GameObject panelObj = GameObject.Find("TestPanel");
 		Debug.Log("TestLayout ===> " + panelObj.name);
 	}
 
@@ -19,6 +20,12 @@ public class AutoLayoutTest {
 	public IEnumerator NewEditModeTestWithEnumeratorPasses() {
 		// Use the Assert class to test conditions.
 		// yield to skip a frame
+
+		GameObject panel = GameObject.Find("TestPanel");
+		Image bgImg = panel.GetComponent<Image>();
+		bgImg.color = Color.red;
+		
+		// yield return new WaitForSeconds(5f);
 		yield return null;
 	}
 }

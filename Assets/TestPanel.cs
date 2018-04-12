@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TestPanel : MonoBehaviour {
 
+	NotificationCenter notifyCenter;
+
 	// Use this for initialization
 	void Start () {
 		this.Init();
@@ -27,7 +29,8 @@ public class TestPanel : MonoBehaviour {
         });
 
 		// 注册任务
-		NotificationCenter.DefaultCenter.AddObserver(this, "Finish");
+		this.notifyCenter = new NotificationCenter();
+		this.notifyCenter.AddObserver(this, "Finish");
 	}
 
 	///
@@ -40,7 +43,7 @@ public class TestPanel : MonoBehaviour {
 		data.Add(1, 1);
 		data.Add("2", 2);
 
-		NotificationCenter.DefaultCenter.PostNotification(this, "Finish", data);
+		this.notifyCenter.PostNotification(this, "Finish", data);
 	}
 
 	
