@@ -269,8 +269,8 @@ public class PackageView : MonoBehaviour {
 	/// 拖动
 	public void OnDrag(PointerEventData eventData, ItemViewEvent eventObj)
 	{
-		// Debug.Log("PackageView ==> OnDrag" + eventData);
-		BPUICommon.SetVisionPositionByPoint(eventObj.itemView, eventData.position);
+		Debug.Log("PackageView ==> OnDrag" + eventData);
+		// BPUICommon.SetVisionPositionByPoint(eventObj.itemView, eventData.position);
 		// BPUICommon.PassEvent(eventData, ExecuteEvents.dragHandler);
 	}
 

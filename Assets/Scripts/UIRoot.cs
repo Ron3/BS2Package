@@ -13,10 +13,8 @@ public class UIRoot : MonoBehaviour {
 		UIManager.Instance.SetCanvasRoot(this.gameObject);
 		UIManager.Instance.Init();
 
-		GameObject obj = GameObject.Find("StartGameButton");
-		Debug.Log("Button => " + obj.name + obj.GetInstanceID());
-		
-
+		// GameObject obj = GameObject.Find("StartGameButton");
+		// Debug.Log("Button => " + obj.name + " | " + obj.BP_RT().sizeDelta);
 		
 		// Animator aniObj = obj.GetComponent<Animator>();
 		// foreach(System.Reflection.PropertyInfo p in aniObj.GetType().GetProperties())
@@ -28,10 +26,9 @@ public class UIRoot : MonoBehaviour {
 		// Animation aniButton = Utility.AssetRelate.ResourcesLoadCheckNull<AnimatorOverrideController>("button");
 		// Debug.Log("aniButton + " + aniButton.name);
 		
-		GameObject testButton = GameObject.Find("Button");
-		var controller = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath("Assets/button.controller");
-		Debug.Log("name ===> " + controller.name);
-
+		// GameObject testButton = GameObject.Find("Button");
+		// var controller = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath("Assets/button.controller");
+		// Debug.Log("name ===> " + controller.name);
 
 		// Animator newAni = testButton.AddComponent<Animator>();
 		// newAni.runtimeAnimatorController = aniButton;
@@ -46,6 +43,8 @@ public class UIRoot : MonoBehaviour {
 
 	public void OnStartGameBtnClick()
 	{
-		UIManager.Instance.ShowPanel("Panel");
+		// Debug.Log("OnStartGameBtnClick");
+		// UIManager.Instance.ShowPanel("Panel");
+
 	}
 }

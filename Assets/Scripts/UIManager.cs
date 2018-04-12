@@ -54,7 +54,22 @@ public class UIManager : Singleton<UIManager> {
         GameObject panel = GameObject.Instantiate(obj);
 		m_PanelDic.Add(name, panel);
 		panel.transform.SetParent(m_CanvasRoot.transform);
-		BPUICommon.SetVisionPositionByBPPos(panel, BPUICommon.POSITION.CENTER);
+
+		GameObject canvas = GameObject.Find("Canvas");
+		float width = 1334f;
+		float height = 750f;
+		
+		panel.BP_RT().offsetMin = new Vector2(100f, 100f);
+		panel.BP_RT().offsetMax = new Vector2(-100f, -100f);
+
+		// Debug.Log("panel anchoredPosition==>" + panel.BP_RT().anchoredPosition);
+		// Debug.Log("canvas ==> " + width + " | " + height + "  panelAnchorMax=>  " + panel.BP_RT().anchorMax + "|" + panel.BP_RT().anchorMin);
+
+		Debug.Log("Panel Rect ===> " + panel.BP_RT().rect);
+		Debug.Log("ShopBgGridView Rect ===> " + panel.BP_Find("ShopBgGridView").BP_RT().rect);
+		
+
+		// BPUICommon.SetVisionPositionByBPPos(panel, BPUICommon.POSITION.CENTER);
 
 		// Resolution[] resolutions = Screen.resolutions;
         // Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);    
