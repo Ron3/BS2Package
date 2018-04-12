@@ -21,8 +21,7 @@ public class StartGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        EventSystem sys;
+        
 		
 	}
 
