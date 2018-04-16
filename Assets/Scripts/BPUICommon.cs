@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Reflection;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
 
 
 ///
@@ -192,7 +195,7 @@ public static class GameObjectExtension
         }
 
         return null;
-    }
+    }    
 }
 
 
@@ -541,3 +544,31 @@ public class BPUICommon
 }
 
 
+
+
+public class ForeachClass
+{
+    /// <summary>
+    /// C#反射遍历对象属性
+    /// </summary>
+    /// <typeparam name="T">对象类型</typeparam>
+    /// <param name="model">对象</param>
+    public static void ForeachClassProperties<T>(T model)
+    {
+        Type t = model.GetType();
+        PropertyInfo[] PropertyList = t.GetProperties();
+        foreach (PropertyInfo item in PropertyList)
+        {
+            string name = item.Name;
+            // object value = item.GetValue(model, null);
+
+            Debug.Log("name => " + name);
+            
+            // if(name == "animation")
+            // {
+            //     object value = item.GetValue(model, null);
+            //     // Debug.Log("name => " + name + " value => " + value);
+            // }
+        }
+    }
+}

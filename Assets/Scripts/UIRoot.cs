@@ -44,7 +44,7 @@ public class UIRoot : MonoBehaviour {
 	public void OnStartGameBtnClick()
 	{
 		// Debug.Log("OnStartGameBtnClick");
-		// UIManager.Instance.ShowPanel("Panel");
+		UIManager.Instance.ShowPanel("Panel");
 
 	}
 }

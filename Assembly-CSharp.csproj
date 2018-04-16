@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+     <Compile Include="Assets\Scripts\Animation.cs" />
      <Compile Include="Assets\Scripts\BPUICommon.cs" />
      <Compile Include="Assets\Scripts\Data\Conf.cs" />
      <Compile Include="Assets\Scripts\Data\GameData.cs" />
@@ -58,11 +61,13 @@
      <Compile Include="Assets\Scripts\ItemViewEvent.cs" />
      <Compile Include="Assets\Scripts\PackageTopView.cs" />
      <Compile Include="Assets\Scripts\PackageView.cs" />
+     <Compile Include="Assets\Scripts\RonPanel.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
      <Compile Include="Assets\Scripts\StartGame.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
      <Compile Include="Assets\Scripts\UIRoot.cs" />
      <Compile Include="Assets\Scripts\Utility.cs" />
+     <None Include="Assets\Demigiant\DOTween\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -134,6 +139,12 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>/Users/Ron2/U3DWork/BS2Package/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenEditor">
+ <HintPath>/Users/Ron2/U3DWork/BS2Package/Assets/Demigiant/DOTween/Editor/DOTweenEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>/Users/Ron2/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>

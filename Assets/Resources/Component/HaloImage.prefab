@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224556644313040076}
   - component: {fileID: 222549617635556310}
-  - component: {fileID: 114146461331961532}
-  - component: {fileID: 95340370178657972}
+  - component: {fileID: 95745382872319946}
+  - component: {fileID: 114955747951787846}
   m_Layer: 0
   m_Name: HaloImage
   m_TagString: Untagged
@@ -29,7 +29,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95340370178657972
+--- !u!95 &95745382872319946
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -46,7 +46,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114146461331961532
+--- !u!114 &114955747951787846
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -85,7 +85,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1136212364692764}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_Children: []
@@ -94,6 +94,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 248, y: 162.68}
-  m_SizeDelta: {x: 110, y: 110}
+  m_AnchoredPosition: {x: 398.78516, y: 167.45003}
+  m_SizeDelta: {x: 221.4, y: 201.5}
   m_Pivot: {x: 0.5, y: 0.5}

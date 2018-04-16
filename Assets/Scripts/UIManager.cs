@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 
 public class UIManager : Singleton<UIManager> {
@@ -58,21 +59,29 @@ public class UIManager : Singleton<UIManager> {
 		GameObject canvas = GameObject.Find("Canvas");
 		float width = 1334f;
 		float height = 750f;
-		
+
 		panel.BP_RT().offsetMin = new Vector2(100f, 100f);
 		panel.BP_RT().offsetMax = new Vector2(-100f, -100f);
+
+		Debug.Log("Rect ==> " + panel.BP_Rect());
+		
+
+		// Debug.Log("localPosition =======>" + panel.BP_RT().localPosition);
+		// panel.BP_RT().localPosition = new Vector3(0, -height/2.0f, 0);
+		// panel.transform.DOMoveY(height/2.0f, 0.5f);
 
 		// Debug.Log("panel anchoredPosition==>" + panel.BP_RT().anchoredPosition);
 		// Debug.Log("canvas ==> " + width + " | " + height + "  panelAnchorMax=>  " + panel.BP_RT().anchorMax + "|" + panel.BP_RT().anchorMin);
 
-		Debug.Log("Panel Rect ===> " + panel.BP_RT().rect);
-		Debug.Log("ShopBgGridView Rect ===> " + panel.BP_Find("ShopBgGridView").BP_RT().rect);
+		Debug.Log("Panel localPosition ==> " + panel.BP_LocalPosition());
+		Debug.Log("Panel Rect ===> " + panel.BP_RT().rect + " | " + panel.BP_Pivot());
+		GameObject priceView = panel.BP_Find("PriceView");
+		Debug.Log("priceView rect ==> " + priceView.BP_RT().rect);
 		
-
+		// Debug.Log("ShopBgGridView Rect ===> " + panel.BP_Find("ShopBgGridView").BP_RT().rect);
 		// BPUICommon.SetVisionPositionByBPPos(panel, BPUICommon.POSITION.CENTER);
-
 		// Resolution[] resolutions = Screen.resolutions;
-        // Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);    
+        // Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);
 		// float height = resolutions[0].height;
 		// float width = resolutions[0].width;
 		// Debug.Log("Screen height ==> " + height + "  width => " + width);
